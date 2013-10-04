@@ -1,0 +1,79 @@
+import java.util.Scanner;
+import java.io.*;
+
+class Test
+{
+	public static void main(String args[])
+	{
+		//
+		Scanner in = null;
+		PrintWriter out = null;
+
+		try
+		{
+			in = new Scanner(new File("board.txt"));
+			out = new PrintWriter(new File("directions.txt"));
+		} catch (Exception e)
+		{
+			System.out.println(e);
+		}
+
+		//get width and height of board
+		String s = in.nextLine();
+		String[] tokens = s.split(",");
+		int width = Integer.parseInt(tokens[0]);
+		int height = Integer.parseInt(tokens[1]);
+
+		//get initial position of robot on board
+		s = in.nextLine();
+		tokens = s.split(",");
+		int xstart = Integer.parseInt(tokens[0]);
+		int ystart = Integer.parseInt(tokens[1]);
+
+		Board a = new Board(width,height);
+		//a.printBoard();
+
+		s = in.nextLine();
+		tokens = s.split(",");
+		for(int i=0;i<s.length();i+=2)
+		{
+			a.array[s.charAt(i)][s.charAt(i+1)] = 1;
+		}
+
+
+		//Scanner kb = new Scanner(System.in);
+
+/*		pathList test = new pathList();
+		for(int i=0;i<3;i++)
+		{
+			System.out.print("x: ");
+			x = kb.nextInt();
+			System.out.print("y: ");
+			y = kb.nextInt();
+			test.enqueue(new lNode(x,y));
+
+			System.out.println(test);
+		}
+
+		System.out.println(test.contains(3,3));
+*/
+		//a.printBoard();
+
+		Robot r = new Robot();//default robot position is 1,1
+		a.array[1][1] = 3;//value of 3 marks location of robot
+		a.printBoard();
+
+		int x,y;
+		System.out.print("enter x coord: ");
+		x = kb.nextInt();
+		System.out.print("enter y coord: ");
+		y = kb.nextInt();
+
+
+		r.setDest(x,y);
+
+		r.buildMoves(new tNode(2,1));
+
+		r.buildDirList();
+	}
+}
